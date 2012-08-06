@@ -1,5 +1,10 @@
 package com.fancypants.pos;
 
+import com.fancypants.pos.calculator.BasketTotalCalculator;
+import com.fancypants.pos.domain.Basket;
+import com.fancypants.pos.exception.DiscountNotFoundException;
+import com.fancypants.pos.exception.PriceNotFoundException;
+import com.fancypants.pos.exception.ProductNotRecognisedException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -7,40 +12,34 @@ import java.math.BigDecimal;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class PointOfSaleTerminalTest {
     private PointOfSaleTerminal terminal;
-    private BarCodeScanner scanner;
+    private ProductCodeChecker checker;
     private Basket basket;
-    private TotalCalculator totalCalculator;
+    private BasketTotalCalculator basketTotalCalculator;
 
     @Before
     public void setUp() throws Exception {
-        scanner = mock(BarCodeScanner.class);
-        totalCalculator = mock(TotalCalculator.class);
+        checker = mock(ProductCodeChecker.class);
+        basketTotalCalculator = mock(BasketTotalCalculator.class);
         basket = mock(Basket.class);
-        terminal = new PointOfSaleTerminal(scanner, basket, totalCalculator);
+        terminal = new PointOfSaleTerminal(checker, basket, basketTotalCalculator);
 
     }
 
     @Test
-    public void shouldCalculateTotalWhenNoItemsScanned() {
-        when(totalCalculator.calculateTotalFor(basket)).thenReturn(new BigDecimal("0.00"));
-
-        assertThat(terminal.getTotal(), is(new BigDecimal("0.00")));
-
-    }
-
-    @Test
-    public void shouldCalculateTotalForOneItem() throws ProductNotRecognisedException {
-        Product productA = mock(Product.class);
-        when(totalCalculator.calculateTotalFor(basket)).thenReturn(new BigDecimal("2.00"));
-        when(scanner.scan("A")).thenReturn(productA);
-
+    public void shouldCheckProductCodeAndAddProductToBasketEachTimeScanIsCalled() throws ProductNotRecognisedException {
         terminal.scan("A");
 
+        verify(basket).add("A");
+        verify(checker).checkProductCode("A");
+    }
+
+    @Test
+    public void shouldCalculateTotal() throws ProductNotRecognisedException, PriceNotFoundException, DiscountNotFoundException {
+        when(basketTotalCalculator.calculateTotalFor(basket)).thenReturn(new BigDecimal("2.00"));
         assertThat(terminal.getTotal(), is(new BigDecimal("2.00")));
     }
 }
