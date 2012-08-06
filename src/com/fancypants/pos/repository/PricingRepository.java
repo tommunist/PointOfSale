@@ -5,10 +5,10 @@ import com.fancypants.pos.exception.PriceNotFoundException;
 import java.math.BigDecimal;
 import java.util.Map;
 
-public class UnitPriceRepository {
+public class PricingRepository {
     private Map<String, BigDecimal> productCodeToPriceMap;
 
-    public UnitPriceRepository(Map<String, BigDecimal> productCodeToPriceMap) {
+    public PricingRepository(Map<String, BigDecimal> productCodeToPriceMap) {
         this.productCodeToPriceMap = productCodeToPriceMap;
     }
 

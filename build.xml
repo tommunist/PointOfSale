@@ -6,10 +6,16 @@
 
     <target name="compile-main" description="Compile module BookBrowser; production classes">
         <compile source="${src.main.dir}" destination="${classes.main.dir}" classpath="classpath.main"/>
+        <copy todir="${classes.main.dir}">
+            <fileset dir="${resources.main.dir}" includes="**/*"/>
+        </copy>
     </target>
 
     <target name="compile-tests" depends="compile-main" description="compile module BookBrowser; test classes">
         <compile source="${src.test.dir}" destination="${classes.test.dir}" classpath="classpath.test"/>
+        <copy todir="${classes.test.dir}">
+            <fileset dir="${resources.test.dir}" includes="**/*"/>
+        </copy>
     </target>
 
     <target name="clean">

@@ -7,7 +7,7 @@ import com.fancypants.pos.exception.DiscountNotFoundException;
 import com.fancypants.pos.exception.PriceNotFoundException;
 import com.fancypants.pos.exception.ProductNotRecognisedException;
 import com.fancypants.pos.repository.DiscountRepository;
-import com.fancypants.pos.repository.UnitPriceRepository;
+import com.fancypants.pos.repository.PricingRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,9 +25,9 @@ public class PointOfSaleTerminalIntegrationTest {
     @Before
     public void setUp() {
         DiscountRepository discountRepository = new DiscountRepository(createDiscountStructure());
-        UnitPriceRepository unitPriceRepository = new UnitPriceRepository(createPricingStructure());
+        PricingRepository pricingRepository = new PricingRepository(createPricingStructure());
 
-        ProductTotalCalculator productTotalCalculator = new ProductTotalCalculator(discountRepository, unitPriceRepository);
+        ProductTotalCalculator productTotalCalculator = new ProductTotalCalculator(discountRepository, pricingRepository);
         BasketTotalCalculator basketTotalCalculator = new BasketTotalCalculator(productTotalCalculator);
 
         terminal = new PointOfSaleTerminal(createProductCodeChecker(), new Basket(), basketTotalCalculator);
@@ -82,10 +82,10 @@ public class PointOfSaleTerminalIntegrationTest {
         return checker;
     }
 
-    private Map<String, QuantityDiscountRule> createDiscountStructure() {
-        Map<String, QuantityDiscountRule> productCodeToDiscountMap = new HashMap<String, QuantityDiscountRule>();
-        productCodeToDiscountMap.put("A", new QuantityDiscountRule(4, new BigDecimal("7.00")));
-        productCodeToDiscountMap.put("C", new QuantityDiscountRule(6, new BigDecimal("6.00")));
+    private Map<String, VolumeDiscount> createDiscountStructure() {
+        Map<String, VolumeDiscount> productCodeToDiscountMap = new HashMap<String, VolumeDiscount>();
+        productCodeToDiscountMap.put("A", new VolumeDiscount(4, new BigDecimal("7.00")));
+        productCodeToDiscountMap.put("C", new VolumeDiscount(6, new BigDecimal("6.00")));
         return productCodeToDiscountMap;
     }
 

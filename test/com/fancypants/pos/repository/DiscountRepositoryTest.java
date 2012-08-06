@@ -1,6 +1,6 @@
 package com.fancypants.pos.repository;
 
-import com.fancypants.pos.QuantityDiscountRule;
+import com.fancypants.pos.VolumeDiscount;
 import com.fancypants.pos.exception.DiscountNotFoundException;
 import org.junit.Test;
 
@@ -17,17 +17,17 @@ public class DiscountRepositoryTest {
 
     @Test
     public void shouldReturnDiscountRuleIfItExistsInTheRepository() throws DiscountNotFoundException {
-        Map<String, QuantityDiscountRule> productCodeToDiscountMap = new HashMap<String, QuantityDiscountRule>();
-        QuantityDiscountRule discountRuleA = mock(QuantityDiscountRule.class);
-        productCodeToDiscountMap.put("A", discountRuleA);
+        Map<String, VolumeDiscount> productCodeToDiscountMap = new HashMap<String, VolumeDiscount>();
+        VolumeDiscount discountA = mock(VolumeDiscount.class);
+        productCodeToDiscountMap.put("A", discountA);
         DiscountRepository discountRepository = new DiscountRepository(productCodeToDiscountMap);
 
-        assertThat(discountRepository.getDiscountRuleFor("A"), equalTo(discountRuleA));
+        assertThat(discountRepository.getDiscountRuleFor("A"), equalTo(discountA));
     }
 
     @Test
     public void shouldIndicateErrorIfTryingToRetrieveADiscountThatDoesNotExist() {
-        DiscountRepository discountRepository = new DiscountRepository(new HashMap<String, QuantityDiscountRule>());
+        DiscountRepository discountRepository = new DiscountRepository(new HashMap<String, VolumeDiscount>());
         try {
             discountRepository.getDiscountRuleFor("A");
             fail("Expected exception to be thrown, none was");
@@ -38,7 +38,7 @@ public class DiscountRepositoryTest {
 
     @Test
     public void shouldIndicateProductHasNoDiscountIfItIsNotInTheRepository() throws DiscountNotFoundException {
-        Map<String, QuantityDiscountRule> productCodeToDiscountMap = new HashMap<String, QuantityDiscountRule>();
+        Map<String, VolumeDiscount> productCodeToDiscountMap = new HashMap<String, VolumeDiscount>();
         DiscountRepository discountRepository = new DiscountRepository(productCodeToDiscountMap);
 
         assertThat(discountRepository.doesDiscountExistFor("A"), is(false));
@@ -46,8 +46,8 @@ public class DiscountRepositoryTest {
 
     @Test
     public void shouldIndicateProductHasDiscountIfItIsInTheRepository() throws DiscountNotFoundException {
-        Map<String, QuantityDiscountRule> productCodeToDiscountMap = new HashMap<String, QuantityDiscountRule>();
-        productCodeToDiscountMap.put("A", mock(QuantityDiscountRule.class));
+        Map<String, VolumeDiscount> productCodeToDiscountMap = new HashMap<String, VolumeDiscount>();
+        productCodeToDiscountMap.put("A", mock(VolumeDiscount.class));
 
         DiscountRepository discountRepository = new DiscountRepository(productCodeToDiscountMap);
 
