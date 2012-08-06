@@ -34,7 +34,7 @@ public class PointOfSaleTerminalTest {
     }
 
     @Test
-    public void shouldCalculateTotalForOneItem() {
+    public void shouldCalculateTotalForOneItem() throws ProductNotRecognisedException {
         Product productA = mock(Product.class);
         when(totalCalculator.calculateTotalFor(basket)).thenReturn(new BigDecimal("2.00"));
         when(scanner.scan("A")).thenReturn(productA);

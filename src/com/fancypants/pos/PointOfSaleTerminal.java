@@ -14,7 +14,7 @@ public class PointOfSaleTerminal {
         this.totalCalculator = totalCalculator;
     }
 
-    public void scan(String productCode) {
+    public void scan(String productCode) throws ProductNotRecognisedException {
         basket.add(scanner.scan(productCode));
     }
 

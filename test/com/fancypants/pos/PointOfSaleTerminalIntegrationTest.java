@@ -20,7 +20,7 @@ public class PointOfSaleTerminalIntegrationTest {
 
     @Test
     @Ignore("WIP")
-    public void shouldProvideTotalForBasketWithOneOfEachItem() {
+    public void shouldProvideTotalForBasketWithOneOfEachItem() throws ProductNotRecognisedException {
         terminal.scan("A");
         terminal.scan("B");
         terminal.scan("C");
