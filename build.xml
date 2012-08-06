@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Point of Sale" default="run-tests">
+    <property file="build.properties"/>
+
+    <target name="compile-all" depends="compile-main,compile-tests"/>
+
+    <target name="compile-main" description="Compile module BookBrowser; production classes">
+        <compile source="${src.main.dir}" destination="${classes.main.dir}" classpath="classpath.main"/>
+    </target>
+
+    <target name="compile-tests" depends="compile-main" description="compile module BookBrowser; test classes">
+        <compile source="${src.test.dir}" destination="${classes.test.dir}" classpath="classpath.test"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="run-tests" depends="run-tests-only, write-test-report, check-test-failures"/>
+
+    <target name="run-tests-only" depends="compile-tests" description="Run Unit tests.">
+        <delete failonerror="false" dir="${test.report.dir}"/>
+        <mkdir dir="${test.report.dir}"/>
+        <junit haltonerror="false" fork="yes" haltonfailure="false" failureproperty="tests-failed" printsummary="on">
+            <classpath refid="classpath.test.runtime"/>
+            <formatter type="xml"/>
+            <batchtest todir="${test.report.dir}">
+                <fileset dir="${classes.test.dir}">
+                    <include name="**/*Test.class"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="write-test-report">
+        <mkdir dir="${test.report.dir}"/>
+        <sequential>
+            <junitreport todir="${test.report.dir}">
+                <fileset dir="${test.report.dir}" includes="TEST-*.xml"/>
+                <report todir="${test.report.dir}/html"/>
+            </junitreport>
+        </sequential>
+    </target>
+
+    <target name="check-test-failures" if="tests-failed">
+        <fail message="Tests failed, see ${test.report.dir} for details"/>
+    </target>
+
+    <macrodef name="compile">
+        <attribute name="source"/>
+        <attribute name="destination"/>
+        <attribute name="classpath"/>
+        <sequential>
+            <mkdir dir="@{destination}"/>
+            <javac srcdir="@{source}" includes="**/*.java" destdir="@{destination}"
+                   fork="true" includeantruntime="false">
+                <classpath refid="@{classpath}"/>
+            </javac>
+        </sequential>
+    </macrodef>
+
+    <path id="classpath.main">
+        <fileset dir="${lib.main.dir}" includes="**/*.jar"/>
+    </path>
+
+    <path id="classpath.test">
+        <path refid="classpath.main"/>
+        <pathelement location="${classes.main.dir}"/>
+        <fileset dir="${lib.test.dir}" includes="**/*.jar"/>
+    </path>
+
+    <path id="classpath.test.runtime">
+        <path refid="classpath.main"/>
+        <path refid="classpath.test"/>
+        <pathelement path="${classes.test.dir}"/>
+    </path>
+
+</project>
