@@ -60,7 +60,6 @@
     </macrodef>
 
     <path id="classpath.main">
-        <fileset dir="${lib.main.dir}" includes="**/*.jar"/>
     </path>
 
     <path id="classpath.test">
