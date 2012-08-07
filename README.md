@@ -12,6 +12,9 @@ To Run all tests using ant:
     ant run-tests
 The main top level test is *PointOfSaleTerminalIntegrationTest*. This covers all the test cases in the problem specification.
 
+JUnit Test report can be found under:
+    build/test-report/html/index.html
+
 Assumptions
 -----------
 
