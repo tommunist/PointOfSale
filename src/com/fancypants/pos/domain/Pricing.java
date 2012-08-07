@@ -35,6 +35,10 @@ public class Pricing {
         return (volumePrice != null && volumeQuantity != null);
     }
 
+    public Integer getVolumeQuantity() {
+        return volumeQuantity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -46,9 +50,5 @@ public class Pricing {
     @Override
     public int hashCode() {
         return productCode != null ? productCode.hashCode() : 0;
-    }
-
-    public Integer getVolumeQuantity() {
-        return volumeQuantity;
     }
 }
