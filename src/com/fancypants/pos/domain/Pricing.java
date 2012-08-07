@@ -16,10 +16,7 @@ public class Pricing {
     }
 
     public Pricing(String productCode, BigDecimal unitPrice) {
-        this.productCode = productCode;
-        this.volumePrice = null;
-        this.volumeQuantity = null;
-        this.unitPrice = unitPrice;
+        this(productCode, unitPrice, null, null);
     }
 
     public String getProductCode() {
@@ -41,13 +38,9 @@ public class Pricing {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Pricing pricing = (Pricing) o;
-
-        if (productCode != null ? !productCode.equals(pricing.productCode) : pricing.productCode != null) return false;
-
-        return true;
+        return (o != null
+                && getClass() == o.getClass())
+                && productCode.equals(((Pricing) o).getProductCode());
     }
 
     @Override
