@@ -37,5 +37,5 @@ Assumptions/Limitations
 
 * Price is not negative
 * Only one product code per product
-* Would have been better to read pricing and items in from I/O (e.g file, etc). I focussed on the minimum viable product based on the problem specification.
+* Might have been nicer to read pricing and items in from disk or standard input. At this point, however I've focused on the minimum viable product based on the problem specification.
 

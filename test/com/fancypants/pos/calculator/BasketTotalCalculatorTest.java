@@ -36,4 +36,19 @@ public class BasketTotalCalculatorTest {
         BigDecimal basketTotal = basketTotalCalculator.calculateTotalFor(basket);
         assertThat(basketTotal, equalTo(new BigDecimal("2300.39")));
     }
+
+    @Test
+    public void shouldSumTotalsForAmountWithMoreThanTwoDecimalPlaces() {
+        Basket basket = new Basket();
+        Pricing productA = mock(Pricing.class);
+        Pricing productC = mock(Pricing.class);
+        basket.add(productA);
+        basket.add(productA);
+        basket.add(productA);
+        basket.add(productC);
+        when(productTotalCalculator.calculateTotalFor(productA, 3)).thenReturn(new BigDecimal("300.3333"));
+        when(productTotalCalculator.calculateTotalFor(productC, 1)).thenReturn(new BigDecimal("2000.222"));
+        BigDecimal basketTotal = basketTotalCalculator.calculateTotalFor(basket);
+        assertThat(basketTotal, equalTo(new BigDecimal("2300.5553")));
+    }
 }

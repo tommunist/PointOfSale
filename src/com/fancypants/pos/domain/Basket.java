@@ -16,9 +16,7 @@ public class Basket {
         } else {
             productToQuantityMap.put(productPricing, 1);
         }
-
     }
-
 
     public Map<Pricing, Integer> getContents() {
         return productToQuantityMap;
