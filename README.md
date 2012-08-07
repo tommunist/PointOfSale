@@ -3,6 +3,8 @@ Point of Sale System
 
 *Tom Ryan tommy@hypersynergy.net*
 
+NOTE: I am not associated with fancypants.com in any way, it was just a random name I chose unfortunately!
+
 Running
 -------
 
