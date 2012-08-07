@@ -2,17 +2,21 @@ package com.fancypants.pos;
 
 import com.fancypants.pos.domain.Pricing;
 import com.fancypants.pos.exception.ProductCodeNotRecognisedException;
-import com.fancypants.pos.repository.PricingRepository;
+
+import java.util.Map;
 
 public class Scanner {
-    private PricingRepository pricingRepository;
+    private Map<String, Pricing> productCodeToPriceMap;
 
-    public Scanner(PricingRepository pricingRepository) {
-        this.pricingRepository = pricingRepository;
+    public Scanner(Map<String, Pricing> productCodeToPriceMap) {
+        this.productCodeToPriceMap = productCodeToPriceMap;
     }
 
     public Pricing scan(String productCode) throws ProductCodeNotRecognisedException {
-        return pricingRepository.getPricingFor(productCode);
+        if (productCodeToPriceMap.containsKey(productCode)) {
+            return productCodeToPriceMap.get(productCode);
+        }
+        throw new ProductCodeNotRecognisedException("Error: Could not find price for product ['" + productCode + "']");
     }
 
 }

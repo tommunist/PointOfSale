@@ -7,7 +7,6 @@ import com.fancypants.pos.domain.Pricing;
 import com.fancypants.pos.exception.DiscountNotFoundException;
 import com.fancypants.pos.exception.PriceNotFoundException;
 import com.fancypants.pos.exception.ProductCodeNotRecognisedException;
-import com.fancypants.pos.repository.PricingRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,12 +23,11 @@ public class PointOfSaleTerminalIntegrationTest {
 
     @Before
     public void setUp() {
-        PricingRepository pricingRepository = new PricingRepository(createPricingStructure());
 
         ProductTotalCalculator productTotalCalculator = new ProductTotalCalculator();
         BasketTotalCalculator basketTotalCalculator = new BasketTotalCalculator(productTotalCalculator);
 
-        terminal = new PointOfSaleTerminal(new Scanner(pricingRepository), new Basket(), basketTotalCalculator);
+        terminal = new PointOfSaleTerminal(new Scanner(createPricingStructure()), new Basket(), basketTotalCalculator);
     }
 
     @Test
