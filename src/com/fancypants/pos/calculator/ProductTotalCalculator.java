@@ -1,25 +1,23 @@
 package com.fancypants.pos.calculator;
 
 import com.fancypants.pos.domain.Pricing;
-import com.fancypants.pos.exception.DiscountNotFoundException;
-import com.fancypants.pos.exception.PriceNotFoundException;
 
 import java.math.BigDecimal;
 
 public class ProductTotalCalculator {
 
-    public BigDecimal calculateTotalFor(Pricing pricing, Integer quantity) throws DiscountNotFoundException, PriceNotFoundException {
+    public BigDecimal calculateTotalFor(Pricing pricing, Integer quantity) {
         if (pricing.hasVolumeDiscount()) {
             return calculateDiscountedTotal(pricing, quantity);
         }
         return calculateUndiscountedTotal(pricing, quantity);
     }
 
-    private BigDecimal calculateUndiscountedTotal(Pricing pricing, Integer quantity) throws PriceNotFoundException {
+    private BigDecimal calculateUndiscountedTotal(Pricing pricing, Integer quantity) {
         return pricing.getUnitPrice().multiply(new BigDecimal(quantity));
     }
 
-    private BigDecimal calculateDiscountedTotal(Pricing pricing, Integer quantity) throws DiscountNotFoundException, PriceNotFoundException {
+    private BigDecimal calculateDiscountedTotal(Pricing pricing, Integer quantity) {
 
         Integer discountVolumeQuantity = pricing.getVolumeQuantity();
         BigDecimal discountVolumePrice = pricing.getVolumePrice();

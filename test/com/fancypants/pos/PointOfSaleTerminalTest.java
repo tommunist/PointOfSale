@@ -3,8 +3,6 @@ package com.fancypants.pos;
 import com.fancypants.pos.calculator.BasketTotalCalculator;
 import com.fancypants.pos.domain.Basket;
 import com.fancypants.pos.domain.Pricing;
-import com.fancypants.pos.exception.DiscountNotFoundException;
-import com.fancypants.pos.exception.PriceNotFoundException;
 import com.fancypants.pos.exception.ProductCodeNotRecognisedException;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +40,7 @@ public class PointOfSaleTerminalTest {
     }
 
     @Test
-    public void shouldCalculateTotal() throws ProductCodeNotRecognisedException, PriceNotFoundException, DiscountNotFoundException {
+    public void shouldCalculateTotal() throws ProductCodeNotRecognisedException {
         when(basketTotalCalculator.calculateTotalFor(basket)).thenReturn(new BigDecimal("2.00"));
         assertThat(terminal.getTotal(), is(new BigDecimal("2.00")));
     }

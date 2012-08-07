@@ -4,8 +4,6 @@ import com.fancypants.pos.calculator.BasketTotalCalculator;
 import com.fancypants.pos.calculator.ProductTotalCalculator;
 import com.fancypants.pos.domain.Basket;
 import com.fancypants.pos.domain.Pricing;
-import com.fancypants.pos.exception.DiscountNotFoundException;
-import com.fancypants.pos.exception.PriceNotFoundException;
 import com.fancypants.pos.exception.ProductCodeNotRecognisedException;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,18 +29,17 @@ public class PointOfSaleTerminalIntegrationTest {
     }
 
     @Test
-    public void shouldProvideTotalForBasketWithOneOfEachItem() throws ProductCodeNotRecognisedException, PriceNotFoundException, DiscountNotFoundException {
+    public void shouldProvideTotalForBasketWithOneOfEachItem() throws ProductCodeNotRecognisedException {
         terminal.scan("A");
         terminal.scan("B");
         terminal.scan("C");
         terminal.scan("D");
 
         assertThat(terminal.getTotal(), is(new BigDecimal("15.40")));
-
     }
 
     @Test
-    public void shouldProvideTotalForBasketWithSevenOfOneItem() throws ProductCodeNotRecognisedException, PriceNotFoundException, DiscountNotFoundException {
+    public void shouldProvideTotalForBasketWithSevenOfOneItem() throws ProductCodeNotRecognisedException {
         terminal.scan("C");
         terminal.scan("C");
         terminal.scan("C");
@@ -52,11 +49,10 @@ public class PointOfSaleTerminalIntegrationTest {
         terminal.scan("C");
 
         assertThat(terminal.getTotal(), is(new BigDecimal("7.25")));
-
     }
 
     @Test
-    public void shouldProvideTotalForBasketWithVarietyOfDifferentItems() throws ProductCodeNotRecognisedException, PriceNotFoundException, DiscountNotFoundException {
+    public void shouldProvideTotalForBasketWithVarietyOfDifferentItems() throws ProductCodeNotRecognisedException {
         terminal.scan("A");
         terminal.scan("B");
         terminal.scan("C");
@@ -67,7 +63,6 @@ public class PointOfSaleTerminalIntegrationTest {
         terminal.scan("A");
 
         assertThat(terminal.getTotal(), is(new BigDecimal("32.40")));
-
     }
 
     private Map<String, Pricing> createPricingStructure() {

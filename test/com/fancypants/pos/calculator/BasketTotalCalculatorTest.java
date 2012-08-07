@@ -2,8 +2,6 @@ package com.fancypants.pos.calculator;
 
 import com.fancypants.pos.domain.Basket;
 import com.fancypants.pos.domain.Pricing;
-import com.fancypants.pos.exception.DiscountNotFoundException;
-import com.fancypants.pos.exception.PriceNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +23,7 @@ public class BasketTotalCalculatorTest {
     }
 
     @Test
-    public void shouldSumTotalsForEachProductForAllProductsInBasket() throws PriceNotFoundException, DiscountNotFoundException {
+    public void shouldSumTotalsForEachProductForAllProductsInBasket() {
         Basket basket = new Basket();
         Pricing productA = mock(Pricing.class);
         Pricing productC = mock(Pricing.class);

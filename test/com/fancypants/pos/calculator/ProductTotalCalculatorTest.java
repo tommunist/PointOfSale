@@ -1,8 +1,6 @@
 package com.fancypants.pos.calculator;
 
 import com.fancypants.pos.domain.Pricing;
-import com.fancypants.pos.exception.DiscountNotFoundException;
-import com.fancypants.pos.exception.PriceNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +21,7 @@ public class ProductTotalCalculatorTest {
     }
 
     @Test
-    public void shouldCalculateTotalOfOneHundredDollarsForItemWithNoDiscount() throws DiscountNotFoundException, PriceNotFoundException {
+    public void shouldCalculateTotalOfOneHundredDollarsForItemWithNoDiscount() {
         Pricing pricingWithNoDiscount = mock(Pricing.class);
         when(pricingWithNoDiscount.getUnitPrice()).thenReturn(new BigDecimal("100.00"));
         when(pricingWithNoDiscount.hasVolumeDiscount()).thenReturn(false);
@@ -32,7 +30,7 @@ public class ProductTotalCalculatorTest {
     }
 
     @Test
-    public void shouldCalculateTotalForOneProductTwoItemsAndNoDiscount() throws DiscountNotFoundException, PriceNotFoundException {
+    public void shouldCalculateTotalForOneProductTwoItemsAndNoDiscount() {
         Pricing pricingWithNoDiscount = mock(Pricing.class);
         when(pricingWithNoDiscount.getProductCode()).thenReturn("D");
         when(pricingWithNoDiscount.getUnitPrice()).thenReturn(new BigDecimal("100.00"));
@@ -42,7 +40,7 @@ public class ProductTotalCalculatorTest {
     }
 
     @Test
-    public void shouldCalculateTotalForBasketWithTenItemsWhenDiscountIsTenForSevenHundredDollars() throws DiscountNotFoundException, PriceNotFoundException {
+    public void shouldCalculateTotalForBasketWithTenItemsWhenDiscountIsTenForSevenHundredDollars() {
         Pricing pricingWithDiscount = mock(Pricing.class);
         when(pricingWithDiscount.getProductCode()).thenReturn("Z");
         when(pricingWithDiscount.getUnitPrice()).thenReturn(new BigDecimal("100.00"));

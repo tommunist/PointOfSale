@@ -3,8 +3,6 @@ package com.fancypants.pos;
 import com.fancypants.pos.calculator.BasketTotalCalculator;
 import com.fancypants.pos.domain.Basket;
 import com.fancypants.pos.domain.Pricing;
-import com.fancypants.pos.exception.DiscountNotFoundException;
-import com.fancypants.pos.exception.PriceNotFoundException;
 import com.fancypants.pos.exception.ProductCodeNotRecognisedException;
 
 import java.math.BigDecimal;
@@ -26,7 +24,7 @@ public class PointOfSaleTerminal {
         basket.add(productPricing);
     }
 
-    public BigDecimal getTotal() throws PriceNotFoundException, DiscountNotFoundException {
+    public BigDecimal getTotal() {
         return basketTotalCalculator.calculateTotalFor(basket);
     }
 }

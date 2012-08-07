@@ -1,7 +1,6 @@
 package com.fancypants.pos;
 
 import com.fancypants.pos.domain.Pricing;
-import com.fancypants.pos.exception.PriceNotFoundException;
 import com.fancypants.pos.exception.ProductCodeNotRecognisedException;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -17,7 +16,7 @@ public class ScannerTest {
 
 
     @Test
-    public void shouldReturnPriceIfAMatchCanBeFoundForTheProductCode() throws PriceNotFoundException {
+    public void shouldReturnPriceIfAMatchCanBeFoundForTheProductCode() {
         Map<String, Pricing> productCodeToPricingMap = new HashMap<String, Pricing>();
         Pricing pricingA = mock(Pricing.class);
         productCodeToPricingMap.put("A", pricingA);
