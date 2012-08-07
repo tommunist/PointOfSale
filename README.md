@@ -5,6 +5,13 @@ Point of Sale System
 
 NOTE: I am not associated with http://fancypants.com/ in any way, it was just a random name I chose unfortunately!
 
+Current Build Status
+--------------
+
+[![Build Status](https://secure.travis-ci.org/tommunist/PointOfSale.png)](http://travis-ci.org/tommunist/PointOfSale)
+
+Runs ant clean run-tests each time a change is pushed using Travis CI.
+
 Running
 -------
 
@@ -22,4 +29,3 @@ Assumptions
 
 * Price is not negative
 * Only one product code per product
-
