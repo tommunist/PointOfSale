@@ -17,7 +17,7 @@ public class ScannerTest {
 
 
     @Test
-    public void shouldReturnPriceIfItExistsInTheRepository() throws PriceNotFoundException {
+    public void shouldReturnPriceIfAMatchCanBeFoundForTheProductCode() throws PriceNotFoundException {
         Map<String, Pricing> productCodeToPricingMap = new HashMap<String, Pricing>();
         Pricing pricingA = mock(Pricing.class);
         productCodeToPricingMap.put("A", pricingA);
@@ -27,7 +27,7 @@ public class ScannerTest {
     }
 
     @Test
-    public void shouldIndicateErrorIfItDoesNotExistInTheRepository() {
+    public void shouldIndicateErrorIfNoMatchCanBeFoundForTheProductCode() {
         Map<String, Pricing> productCodeToPricingMap = new HashMap<String, Pricing>();
         Scanner scanner = new Scanner(productCodeToPricingMap);
 
