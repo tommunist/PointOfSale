@@ -11,18 +11,18 @@ import java.math.BigDecimal;
 
 public class PointOfSaleTerminal {
 
-    private Scanner checker;
+    private Scanner scanner;
     private Basket basket;
     private BasketTotalCalculator basketTotalCalculator;
 
-    public PointOfSaleTerminal(Scanner checker, Basket basket, BasketTotalCalculator basketTotalCalculator) {
-        this.checker = checker;
+    public PointOfSaleTerminal(Scanner scanner, Basket basket, BasketTotalCalculator basketTotalCalculator) {
+        this.scanner = scanner;
         this.basket = basket;
         this.basketTotalCalculator = basketTotalCalculator;
     }
 
     public void scan(String productCode) throws ProductCodeNotRecognisedException {
-        Pricing productPricing = checker.scan(productCode);
+        Pricing productPricing = scanner.scan(productCode);
         basket.add(productPricing);
     }
 
