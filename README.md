@@ -16,4 +16,5 @@ Assumptions
 -----------
 
 * Price is not negative
+* Only one product code per product
 
