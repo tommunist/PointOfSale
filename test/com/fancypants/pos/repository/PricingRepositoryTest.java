@@ -1,39 +1,41 @@
 package com.fancypants.pos.repository;
 
+import com.fancypants.pos.domain.Pricing;
 import com.fancypants.pos.exception.PriceNotFoundException;
-import org.junit.Before;
+import com.fancypants.pos.exception.ProductCodeNotRecognisedException;
 import org.junit.Test;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 import static junit.framework.Assert.fail;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class PricingRepositoryTest {
 
     private PricingRepository pricingRepository;
 
-    @Before
-    public void setUp() {
-        Map<String, BigDecimal> productCodeToPriceMap = new HashMap<String, BigDecimal>();
-        productCodeToPriceMap.put("A", new BigDecimal("1.23"));
-        pricingRepository = new PricingRepository(productCodeToPriceMap);
-    }
-
     @Test
     public void shouldReturnPriceIfItExistsInTheRepository() throws PriceNotFoundException {
-        assertThat(pricingRepository.getPriceFor("A"), equalTo(new BigDecimal("1.23")));
+        Map<String, Pricing> productCodeToPricingMap = new HashMap<String, Pricing>();
+        Pricing pricingA = mock(Pricing.class);
+        productCodeToPricingMap.put("A", pricingA);
+        pricingRepository = new PricingRepository(productCodeToPricingMap);
+
+        assertThat(pricingRepository.getPricingFor("A"), equalTo(pricingA));
     }
 
     @Test
-    public void shouldIndicateErrorIfTryingToRetrieveADiscountThatDoesNotExist() {
+    public void shouldIndicateErrorIfItDoesNotExistInTheRepository() {
+        Map<String, Pricing> productCodeToPricingMap = new HashMap<String, Pricing>();
+        pricingRepository = new PricingRepository(productCodeToPricingMap);
+
         try {
-            pricingRepository.getPriceFor("Z");
+            pricingRepository.getPricingFor("Z");
             fail("Expected exception to be thrown, none was");
-        } catch (PriceNotFoundException e) {
+        } catch (ProductCodeNotRecognisedException e) {
             assertThat(e.getMessage(), equalTo("Error: Could not find price for product ['Z']"));
         }
     }

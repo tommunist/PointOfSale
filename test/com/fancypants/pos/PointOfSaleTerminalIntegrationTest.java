@@ -3,10 +3,10 @@ package com.fancypants.pos;
 import com.fancypants.pos.calculator.BasketTotalCalculator;
 import com.fancypants.pos.calculator.ProductTotalCalculator;
 import com.fancypants.pos.domain.Basket;
+import com.fancypants.pos.domain.Pricing;
 import com.fancypants.pos.exception.DiscountNotFoundException;
 import com.fancypants.pos.exception.PriceNotFoundException;
-import com.fancypants.pos.exception.ProductNotRecognisedException;
-import com.fancypants.pos.repository.DiscountRepository;
+import com.fancypants.pos.exception.ProductCodeNotRecognisedException;
 import com.fancypants.pos.repository.PricingRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,17 +24,16 @@ public class PointOfSaleTerminalIntegrationTest {
 
     @Before
     public void setUp() {
-        DiscountRepository discountRepository = new DiscountRepository(createDiscountStructure());
         PricingRepository pricingRepository = new PricingRepository(createPricingStructure());
 
-        ProductTotalCalculator productTotalCalculator = new ProductTotalCalculator(discountRepository, pricingRepository);
+        ProductTotalCalculator productTotalCalculator = new ProductTotalCalculator();
         BasketTotalCalculator basketTotalCalculator = new BasketTotalCalculator(productTotalCalculator);
 
-        terminal = new PointOfSaleTerminal(createProductCodeChecker(), new Basket(), basketTotalCalculator);
+        terminal = new PointOfSaleTerminal(new Scanner(pricingRepository), new Basket(), basketTotalCalculator);
     }
 
     @Test
-    public void shouldProvideTotalForBasketWithOneOfEachItem() throws ProductNotRecognisedException, PriceNotFoundException, DiscountNotFoundException {
+    public void shouldProvideTotalForBasketWithOneOfEachItem() throws ProductCodeNotRecognisedException, PriceNotFoundException, DiscountNotFoundException {
         terminal.scan("A");
         terminal.scan("B");
         terminal.scan("C");
@@ -45,7 +44,7 @@ public class PointOfSaleTerminalIntegrationTest {
     }
 
     @Test
-    public void shouldProvideTotalForBasketWithFiveWithOneOfEachItem() throws ProductNotRecognisedException, PriceNotFoundException, DiscountNotFoundException {
+    public void shouldProvideTotalForBasketWithSevenOfOneItem() throws ProductCodeNotRecognisedException, PriceNotFoundException, DiscountNotFoundException {
         terminal.scan("C");
         terminal.scan("C");
         terminal.scan("C");
@@ -59,7 +58,7 @@ public class PointOfSaleTerminalIntegrationTest {
     }
 
     @Test
-    public void shouldProvideTotalForBasketWithVarietyOfDifferentItems() throws ProductNotRecognisedException, PriceNotFoundException, DiscountNotFoundException {
+    public void shouldProvideTotalForBasketWithVarietyOfDifferentItems() throws ProductCodeNotRecognisedException, PriceNotFoundException, DiscountNotFoundException {
         terminal.scan("A");
         terminal.scan("B");
         terminal.scan("C");
@@ -73,28 +72,12 @@ public class PointOfSaleTerminalIntegrationTest {
 
     }
 
-    private ProductCodeChecker createProductCodeChecker() {
-        ProductCodeChecker checker = new ProductCodeChecker();
-        checker.add("A");
-        checker.add("B");
-        checker.add("C");
-        checker.add("D");
-        return checker;
-    }
-
-    private Map<String, VolumeDiscount> createDiscountStructure() {
-        Map<String, VolumeDiscount> productCodeToDiscountMap = new HashMap<String, VolumeDiscount>();
-        productCodeToDiscountMap.put("A", new VolumeDiscount(4, new BigDecimal("7.00")));
-        productCodeToDiscountMap.put("C", new VolumeDiscount(6, new BigDecimal("6.00")));
-        return productCodeToDiscountMap;
-    }
-
-    private Map<String, BigDecimal> createPricingStructure() {
-        Map<String, BigDecimal> productCodeToPriceMap = new HashMap<String, BigDecimal>();
-        productCodeToPriceMap.put("A", new BigDecimal("2.00"));
-        productCodeToPriceMap.put("B", new BigDecimal("12.00"));
-        productCodeToPriceMap.put("C", new BigDecimal("1.25"));
-        productCodeToPriceMap.put("D", new BigDecimal("0.15"));
+    private Map<String, Pricing> createPricingStructure() {
+        Map<String, Pricing> productCodeToPriceMap = new HashMap<String, Pricing>();
+        productCodeToPriceMap.put("A", new Pricing("A", new BigDecimal("2.00"), new BigDecimal("7.00"), 4));
+        productCodeToPriceMap.put("B", new Pricing("B", new BigDecimal("12.00")));
+        productCodeToPriceMap.put("C", new Pricing("C", new BigDecimal("1.25"), new BigDecimal("6.00"), 6));
+        productCodeToPriceMap.put("D", new Pricing("D", new BigDecimal("0.15")));
         return productCodeToPriceMap;
     }
 

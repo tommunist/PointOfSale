@@ -1,21 +1,21 @@
 package com.fancypants.pos.repository;
 
-import com.fancypants.pos.exception.PriceNotFoundException;
+import com.fancypants.pos.domain.Pricing;
+import com.fancypants.pos.exception.ProductCodeNotRecognisedException;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 public class PricingRepository {
-    private Map<String, BigDecimal> productCodeToPriceMap;
+    private Map<String, Pricing> productCodeToPriceMap;
 
-    public PricingRepository(Map<String, BigDecimal> productCodeToPriceMap) {
+    public PricingRepository(Map<String, Pricing> productCodeToPriceMap) {
         this.productCodeToPriceMap = productCodeToPriceMap;
     }
 
-    public BigDecimal getPriceFor(String productCode) throws PriceNotFoundException {
+    public Pricing getPricingFor(String productCode) throws ProductCodeNotRecognisedException {
         if (productCodeToPriceMap.containsKey(productCode)) {
             return productCodeToPriceMap.get(productCode);
         }
-        throw new PriceNotFoundException("Error: Could not find price for product ['" + productCode + "']");
+        throw new ProductCodeNotRecognisedException("Error: Could not find price for product ['" + productCode + "']");
     }
 }
