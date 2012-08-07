@@ -1,9 +1,17 @@
 Point of Sale System
 ====================
 
-*Tom Ryan tommy@hypersynergy.net*
+*Tom Ryan*
+tommy@hypersynergy.net
+
+https://github.com/tommunist/PointOfSale
 
 NOTE: I am not associated with http://fancypants.com/ in any way, it was just a random name I chose unfortunately!
+
+About
+-----
+
+A Basic Point Of Sale Terminal, with the ability to apply volume discounts to items that have been scanned.
 
 Current Build Status
 --------------
@@ -24,8 +32,10 @@ The main top level test is *PointOfSaleTerminalIntegrationTest*. This covers all
 JUnit Test report can be found under:
     *build/test-report/html/index.html*
 
-Assumptions
+Assumptions/Limitations
 -----------
 
 * Price is not negative
 * Only one product code per product
+* Would have been better to read pricing and items in from I/O (e.g file, etc). I focussed on the minimum viable product based on the problem specification.
+
